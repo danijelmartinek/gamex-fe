@@ -1,18 +1,18 @@
 <template>
     <div id="app">
-        <defaultNav>
+        <mainNav>
             <router-view />
-        </defaultNav>
+        </mainNav>
     </div>
 </template>
 
 <script lang="ts">
     import { defineComponent } from '@vue/composition-api';
-    import defaultNav from '@/layouts/default.vue';
+    import mainNav from '@/layouts/main.vue';
 
     export default defineComponent({
         components: {
-            defaultNav
+            mainNav
         }
     });
 </script>
