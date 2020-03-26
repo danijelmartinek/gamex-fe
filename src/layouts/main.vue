@@ -3,12 +3,12 @@
         <div id="main-nav">
             <span class="app-logo">gaXme</span>
             <span class="main-nav-items">
-                <router-link
+                <!-- <router-link
                     v-for="item in navItems"
                     :to="item.path"
                     :key="item.path"
                     >{{ item.name }}</router-link
-                >
+                > -->
             </span>
             <span class="main-nav-actions"></span>
         </div>
@@ -129,11 +129,11 @@
 
     $default-text-color: #2c3e50;
 
-    $nav-height: 8em;
-    $nav-item-color: #2c3e50;
+    $nav-height: 10vh;
+    $nav-item-color: #356596;
     $nav-item-hover-color: blue;
     $nav-item-active-color: #42b983;
-    $nav-background-color: cyan;
+    $nav-background-color: rgb(5, 5, 5);
 
     $footer-height: 15em;
     $footer-link-color: #2c3e50;
