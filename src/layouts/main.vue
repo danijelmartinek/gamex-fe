@@ -12,9 +12,7 @@
             </span>
             <span class="main-nav-actions"></span>
         </div>
-        <div style="height: 2000px">
-            <slot></slot>
-        </div>
+        <slot></slot>
         <div id="main-footer">
             <div class="main-footer-container">
                 <div class="main-footer-section">
@@ -127,7 +125,7 @@
 <style lang="scss" scoped>
     @import './../styles/breakpoints.scss';
 
-    $default-text-color: #2c3e50;
+    $default-text-color: white;
 
     $nav-height: 10vh;
     $nav-item-color: #356596;
@@ -136,10 +134,10 @@
     $nav-background-color: rgb(5, 5, 5);
 
     $footer-height: 15em;
-    $footer-link-color: #2c3e50;
+    $footer-link-color: white;
     $footer-link-hover-color: blue;
     $footer-link-active-color: #42b983;
-    $footer-background-color: cyan;
+    $footer-background-color: rgb(5, 5, 5);
 
     #main-layout {
         color: $footer-link-color;

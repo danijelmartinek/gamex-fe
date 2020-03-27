@@ -163,6 +163,7 @@
 
         .x-part {
             height: 100%;
+            max-height: 720px;
             width: 100%;
             position: relative;
             order: 1;
