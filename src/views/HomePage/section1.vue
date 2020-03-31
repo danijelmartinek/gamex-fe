@@ -8,7 +8,14 @@
             <button>Join now</button>
         </div>
         <div class="x-part">
-            <p><span>X</span></p>
+            <p>
+                <span
+                    ><img
+                        :src="require('@/assets/img/logo/logo.svg')"
+                        alt="GameX logo"
+                        width="100%"
+                /></span>
+            </p>
             <div class="scalein-img-container">
                 <img
                     v-for="(wallpaper, index) in gameWallpapers"
@@ -167,12 +174,12 @@
             width: 100%;
             position: relative;
             order: 1;
+
             @include breakpoint('m') {
                 order: 2;
             }
 
             p {
-                font-size: 10em;
                 position: absolute;
                 left: 50%;
                 top: 50%;
@@ -195,16 +202,19 @@
                 span {
                     display: block;
                     transform: scale(1);
-                    animation: x-anim 2s ease-out;
 
-                    @keyframes x-anim {
-                        from {
-                            opacity: 0;
-                            transform: scale(0.1);
-                        }
-                        to {
-                            opacity: 1;
-                            transform: scale(1);
+                    img {
+                        animation: x-anim 2s ease-out;
+
+                        @keyframes x-anim {
+                            from {
+                                opacity: 0;
+                                transform: scale(0.1) rotate(360deg);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: scale(1) rotate(0deg);
+                            }
                         }
                     }
                 }

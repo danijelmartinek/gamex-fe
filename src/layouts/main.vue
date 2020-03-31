@@ -3,12 +3,12 @@
         <div id="main-nav">
             <span class="app-logo">gaXme</span>
             <span class="main-nav-items">
-                <!-- <router-link
+                <router-link
                     v-for="item in navItems"
                     :to="item.path"
                     :key="item.path"
                     >{{ item.name }}</router-link
-                > -->
+                >
             </span>
             <span class="main-nav-actions"></span>
         </div>
@@ -78,6 +78,7 @@
 
 <script lang="ts">
     import { defineComponent } from '@vue/composition-api';
+    import { EnumGameGridItem } from '@/utils/interfaces/homePage.ts';
     import {
         EnumNavItem,
         EnumFollowUsIcon
