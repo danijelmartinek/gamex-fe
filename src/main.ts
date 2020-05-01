@@ -7,6 +7,8 @@ import VueCompositionApi from '@vue/composition-api';
 import loadIcons from './utils/iconLoader';
 loadIcons(Vue);
 
+import './styles/index.css';
+
 Vue.config.productionTip = false;
 
 Vue.use(VueCompositionApi);

@@ -32,6 +32,8 @@
     export default defineComponent({
         setup() {
             const gameGridItems = reactive([ref<EnumGameGridItem>({})]);
+
+            //test images
             const gameWallArray: string[] = [
                 'wallpaper_the_elder_scrolls_online_harrowstorm_01_2560x1440.jpg',
                 'wallpaper_doom_eternal_16_2560x1440.jpg',

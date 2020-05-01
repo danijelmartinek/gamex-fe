@@ -11,7 +11,7 @@ import {
 
 const loadIcons = (vue: any): void => {
     library.add(faHome, faInstagram, faYoutube, faTwitter, faTwitch);
-    vue.component('icon', FontAwesomeIcon);
+    vue.component('fa-icon', FontAwesomeIcon);
 };
 
 export default loadIcons;

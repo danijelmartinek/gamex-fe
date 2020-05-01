@@ -2,7 +2,15 @@
     <span id="main-layout">
         <div id="main-nav">
             <span class="app-logo">gaXme</span>
-            <span class="main-nav-items">
+            <span class="main-nav-items" v-if="selectedMediaQueries === 'm'">
+                <router-link
+                    v-for="item in navItems.slice(0, 3)"
+                    :to="item.path"
+                    :key="item.path"
+                    >{{ item.name }}</router-link
+                >
+            </span>
+            <span class="main-nav-items" v-if="selectedMediaQueries === 'l'">
                 <router-link
                     v-for="item in navItems"
                     :to="item.path"
@@ -61,7 +69,7 @@
                             :href="ic.link"
                             target="_blank"
                         >
-                            <icon
+                            <fa-icon
                                 class="footer-social-icon"
                                 :icon="['fab', ic.icon]"
                             />
@@ -77,7 +85,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from '@vue/composition-api';
+    import { defineComponent, ref } from '@vue/composition-api';
     import { EnumGameGridItem } from '@/utils/interfaces/homePage.ts';
     import {
         EnumNavItem,
@@ -86,6 +94,7 @@
 
     export default defineComponent({
         setup(props, context) {
+            const selectedMediaQueries = ref<string>('s');
             let navItems: EnumNavItem[] = [];
             const blackListItems: string[] = [];
             const icons: EnumFollowUsIcon[] = [
@@ -118,7 +127,33 @@
                 )
                 .filter((y: any): boolean => !blackListItems.includes(y.name));
 
-            return { navItems, icons };
+            const addQuery = (query: string, funct: any): void => {
+                const x: any = window.matchMedia(query);
+
+                if (x.matches) {
+                    funct();
+                }
+
+                x.addListener(() => {
+                    if (x.matches) {
+                        funct();
+                    }
+                });
+            };
+
+            addQuery('(min-width: 0px) and (max-width: 600px)', () => {
+                selectedMediaQueries.value = 's';
+            });
+
+            addQuery('(min-width: 600px) and (max-width: 900px)', () => {
+                selectedMediaQueries.value = 'm';
+            });
+
+            addQuery('(min-width: 900px) and (max-width: 1200px)', () => {
+                selectedMediaQueries.value = 'l';
+            });
+
+            return { selectedMediaQueries, navItems, icons };
         }
     });
 </script>
@@ -290,7 +325,7 @@
                         a {
                             .footer-social-icon {
                                 font-size: 1.5em;
-                                padding: 0.5em 1em 0.5em 0em;
+                                margin-right: 0.5em;
                                 color: $footer-link-color;
                             }
 

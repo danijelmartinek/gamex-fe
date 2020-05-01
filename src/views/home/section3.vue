@@ -118,12 +118,12 @@
                 }
 
                 p {
-                    height: 3em;
-                    padding-bottom: 1em;
+                    height: 4em;
+                    margin-bottom: 1em;
                 }
 
                 img {
-                    width: 80%;
+                    width: 100%;
                     border-radius: 2%;
                 }
             }
@@ -135,6 +135,10 @@
 
             a {
                 color: #fff;
+
+                &:hover {
+                    opacity: 0.5;
+                }
             }
         }
     }

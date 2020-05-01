@@ -1,5 +1,5 @@
 <template>
-    <div id="homePage">
+    <div id="home-page">
         <section-1></section-1>
         <section-2></section-2>
         <section-3></section-3>
