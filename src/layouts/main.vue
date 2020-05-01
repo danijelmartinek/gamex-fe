@@ -1,14 +1,14 @@
 <template>
     <span id="main-layout">
-        <div id="main-nav">
+        <!-- <div id="main-nav">
             <span class="app-logo">gaXme</span>
             <span class="main-nav-items" v-if="selectedMediaQueries === 'm'">
                 <router-link
                     v-for="item in navItems.slice(0, 3)"
                     :to="item.path"
                     :key="item.path"
-                    >{{ item.name }}</router-link
-                >
+                    >{{ item.name }}
+                </router-link>
             </span>
             <span class="main-nav-items" v-if="selectedMediaQueries === 'l'">
                 <router-link
@@ -19,102 +19,37 @@
                 >
             </span>
             <span class="main-nav-actions"></span>
-        </div>
-        <slot></slot>
-        <div id="main-footer">
-            <div class="main-footer-container">
-                <div class="main-footer-section">
-                    <ul>
-                        <h2>About</h2>
-                        <li>
-                            <router-link to="#">Who we are</router-link>
-                        </li>
-                        <li>
-                            <router-link to="#">Our Tehnology</router-link>
-                        </li>
-                    </ul>
-                </div>
-                <div class="main-footer-section">
-                    <ul>
-                        <h2>Support</h2>
-                        <li><router-link to="#">FAQ</router-link></li>
-                        <li>
-                            <router-link to="#">Help center</router-link>
-                        </li>
-                        <li>
-                            <router-link to="#">support@gamex.i</router-link>
-                        </li>
-                    </ul>
-                </div>
-                <div class="main-footer-section">
-                    <ul>
-                        <h2>Legal</h2>
-                        <li>
-                            <router-link to="#">Terms & Conditions</router-link>
-                        </li>
-                        <li>
-                            <router-link to="#">Privacy policy</router-link>
-                        </li>
-                        <li>
-                            <router-link to="#">Cookie</router-link>
-                        </li>
-                    </ul>
-                </div>
-                <div class="main-footer-section">
-                    <div class="follow-us-icons">
-                        <h2>Follow us</h2>
-                        <a
-                            v-for="ic in icons"
-                            :key="ic.name"
-                            :href="ic.link"
-                            target="_blank"
-                        >
-                            <fa-icon
-                                class="footer-social-icon"
-                                :icon="['fab', ic.icon]"
-                            />
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright-container">
-                <h4>Copyright © 2020 gamex</h4>
-            </div>
-        </div>
+        </div> -->
+
+        <mainMobile>
+            <template v-slot:sidebar>
+                menu
+            </template>
+
+            <template v-slot:default>
+                <slot></slot>
+                <mainFooter />
+            </template>
+        </mainMobile>
     </span>
 </template>
 
 <script lang="ts">
     import { defineComponent, ref } from '@vue/composition-api';
     import { EnumGameGridItem } from '@/utils/interfaces/homePage.ts';
-    import {
-        EnumNavItem,
-        EnumFollowUsIcon
-    } from '@/utils/interfaces/layout.ts';
+
+    import mainMobile from './_main_mobile.vue';
+    import mainFooter from './_main_footer.vue';
 
     export default defineComponent({
+        components: {
+            mainMobile,
+            mainFooter
+        },
         setup(props, context) {
             const selectedMediaQueries = ref<string>('s');
             let navItems: EnumNavItem[] = [];
             const blackListItems: string[] = [];
-            const icons: EnumFollowUsIcon[] = [
-                {
-                    link: 'https://www.instagram.com/',
-                    icon: 'instagram'
-                },
-                {
-                    link: 'https://www.youtube.com/',
-                    icon: 'youtube'
-                },
-                {
-                    link: 'https://twitter.com/',
-                    icon: 'twitter'
-                },
-                {
-                    link: 'https://www.twitch.tv/',
-                    icon: 'twitch'
-                }
-            ];
 
             navItems = (context.root.$router as any).options.routes
                 .map(
@@ -153,7 +88,7 @@
                 selectedMediaQueries.value = 'l';
             });
 
-            return { selectedMediaQueries, navItems, icons };
+            return { selectedMediaQueries, navItems };
         }
     });
 </script>
