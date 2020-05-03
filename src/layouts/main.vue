@@ -1,16 +1,8 @@
 <template>
     <span id="main-layout">
-        <!-- <div id="main-nav">
+        <div id="main-nav">
             <span class="app-logo">gaXme</span>
-            <span class="main-nav-items" v-if="selectedMediaQueries === 'm'">
-                <router-link
-                    v-for="item in navItems.slice(0, 3)"
-                    :to="item.path"
-                    :key="item.path"
-                    >{{ item.name }}
-                </router-link>
-            </span>
-            <span class="main-nav-items" v-if="selectedMediaQueries === 'l'">
+            <span class="main-nav-items">
                 <router-link
                     v-for="item in navItems"
                     :to="item.path"
@@ -18,12 +10,31 @@
                     >{{ item.name }}</router-link
                 >
             </span>
-            <span class="main-nav-actions"></span>
-        </div> -->
+            <span class="main-nav-hamburger">
+                <span @click="mobileNavActive = !mobileNavActive">
+                    <fa-icon
+                        class="footer-social-icon"
+                        :icon="['fa', 'bars']"
+                    />
+                </span>
+            </span>
+        </div>
 
-        <mainMobile>
+        <mainMobile :mobileNavActive="mobileNavActive">
             <template v-slot:sidebar>
-                menu
+                <div class="mobile-nav-container">
+                    <div
+                        class="mobile-nav"
+                        @click="mobileNavActive = !mobileNavActive"
+                    >
+                        <router-link
+                            v-for="item in navItems"
+                            :to="item.path"
+                            :key="item.path"
+                            >{{ item.name }}</router-link
+                        >
+                    </div>
+                </div>
             </template>
 
             <template v-slot:default>
@@ -36,7 +47,7 @@
 
 <script lang="ts">
     import { defineComponent, ref } from '@vue/composition-api';
-    import { EnumGameGridItem } from '@/utils/interfaces/homePage.ts';
+    import { EnumNavItem } from '@/utils/interfaces/layout.ts';
 
     import mainMobile from './_main_mobile.vue';
     import mainFooter from './_main_footer.vue';
@@ -47,9 +58,10 @@
             mainFooter
         },
         setup(props, context) {
-            const selectedMediaQueries = ref<string>('s');
+            const mobileNavActive = ref<boolean>(false);
             let navItems: EnumNavItem[] = [];
             const blackListItems: string[] = [];
+            // const selectedMediaQueries = ref<string>('s');
 
             navItems = (context.root.$router as any).options.routes
                 .map(
@@ -76,19 +88,19 @@
                 });
             };
 
-            addQuery('(min-width: 0px) and (max-width: 600px)', () => {
-                selectedMediaQueries.value = 's';
+            addQuery('(min-width: 992px)', () => {
+                mobileNavActive.value = false;
             });
 
-            addQuery('(min-width: 600px) and (max-width: 900px)', () => {
-                selectedMediaQueries.value = 'm';
-            });
+            // addQuery('(min-width: 600px) and (max-width: 900px)', () => {
+            //     selectedMediaQueries.value = 'm';
+            // });
 
-            addQuery('(min-width: 900px) and (max-width: 1200px)', () => {
-                selectedMediaQueries.value = 'l';
-            });
+            // addQuery('(min-width: 900px) and (max-width: 1200px)', () => {
+            //     selectedMediaQueries.value = 'l';
+            // });
 
-            return { selectedMediaQueries, navItems };
+            return { mobileNavActive, navItems };
         }
     });
 </script>
@@ -99,9 +111,9 @@
     $default-text-color: white;
 
     $nav-height: 10vh;
-    $nav-item-color: #356596;
+    $nav-item-color: white;
     $nav-item-hover-color: blue;
-    $nav-item-active-color: #42b983;
+    $nav-item-active-color: red;
     $nav-background-color: rgb(5, 5, 5);
 
     $footer-height: 15em;
@@ -121,12 +133,17 @@
             background-color: $nav-background-color;
 
             .app-logo {
-                flex: 2;
+                flex: 0 0 200px;
                 text-align: center;
             }
 
             .main-nav-items {
                 flex: 8;
+                display: none;
+
+                @include breakpoint('m') {
+                    display: block;
+                }
 
                 a {
                     font-size: 1.25em;
@@ -146,158 +163,55 @@
                 }
             }
 
-            .main-nav-actions {
-                flex: 2;
+            .main-nav-hamburger {
+                flex: 1;
+                text-align: right;
+                margin-right: 2em;
+
+                @include breakpoint('m') {
+                    display: none;
+                }
+
+                span {
+                    font-size: 1.5em;
+                    padding: 0.5em;
+                    cursor: pointer;
+
+                    &:hover {
+                        opacity: 0.75;
+                    }
+
+                    &:active {
+                        opacity: 0.5;
+                    }
+                }
             }
         }
 
-        #main-footer {
+        .mobile-nav-container {
+            height: 100%;
             width: 100%;
-            height: 55em;
-            position: relative;
-            left: 0;
-            bottom: 0;
-            display: flex;
-            justify-content: center;
-            background-color: $footer-background-color;
+            color: $default-text-color;
+            background-color: $nav-background-color;
 
-            @include breakpoint-custom(239px) {
-                height: 50em;
-            }
-
-            @include breakpoint('xs') {
-                height: 30em;
-            }
-
-            @include breakpoint('m') {
-                height: 20em;
-            }
-
-            .main-footer-container {
-                width: 100%;
-                position: absolute;
+            .mobile-nav {
                 display: flex;
-                flex-direction: row;
-                align-self: center;
-                flex-wrap: wrap;
-                padding-bottom: 5em;
+                flex-direction: column;
 
-                @include breakpoint('l') {
-                    width: 80%;
-                    max-width: 1400px;
-                }
+                a {
+                    font-size: 1.5em;
+                    text-transform: uppercase;
+                    flex: 1;
+                    padding: 0.5em;
+                    margin: 0.5em;
+                    color: $nav-item-color;
 
-                .main-footer-section {
-                    flex: 100%;
-                    display: flex;
-                    padding: 1em 0em 1em 2em;
-
-                    @include breakpoint('xs') {
-                        flex: 50%;
-                        padding: 1em 0em 1em 0em;
+                    &:hover {
+                        color: $nav-item-hover-color;
                     }
 
-                    @include breakpoint('m') {
-                        flex: 1;
-                        justify-content: center;
-                        padding: 0em;
-                    }
-
-                    ul {
-                        @include breakpoint('xs') {
-                            padding-left: 2em;
-                        }
-
-                        @include breakpoint('m') {
-                            padding-left: 0em;
-                        }
-
-                        h2 {
-                            text-transform: uppercase;
-                            padding: 1em 0em 1em 0em;
-                            color: $default-text-color;
-                        }
-
-                        li {
-                            list-style: none;
-                            margin: 0.5em 0em 0.5em 0em;
-
-                            a {
-                                text-decoration: none;
-                                cursor: pointer;
-                                color: $footer-link-color;
-
-                                &:visited {
-                                    color: $footer-link-color;
-                                }
-
-                                &:hover {
-                                    color: $footer-link-hover-color;
-                                }
-
-                                &:active {
-                                    color: $footer-link-active-color;
-                                }
-                            }
-                        }
-                    }
-
-                    .follow-us-icons {
-                        @include breakpoint('xs') {
-                            padding-left: 2em;
-                        }
-
-                        @include breakpoint('m') {
-                            padding-left: 0em;
-                        }
-
-                        h2 {
-                            text-transform: uppercase;
-                            padding: 1em 0em 1em 0em;
-                            color: $default-text-color;
-                        }
-
-                        a {
-                            .footer-social-icon {
-                                font-size: 1.5em;
-                                margin-right: 0.5em;
-                                color: $footer-link-color;
-                            }
-
-                            &:visited .footer-social-icon {
-                                color: $footer-link-color;
-                            }
-
-                            &:hover .footer-social-icon {
-                                color: $footer-link-hover-color;
-                            }
-
-                            &:active .footer-social-icon {
-                                color: $footer-link-active-color;
-                            }
-                        }
-                    }
-                }
-            }
-
-            .copyright-container {
-                width: 100%;
-                height: 4em;
-                position: absolute;
-                bottom: 0;
-                display: flex;
-                align-items: center;
-                background-color: darken($footer-background-color, 10%);
-
-                @include breakpoint('m') {
-                    justify-content: center;
-                }
-
-                h4 {
-                    padding-left: 2em;
-
-                    @include breakpoint('m') {
-                        padding-left: 0em;
+                    &.router-link-exact-active {
+                        color: $nav-item-active-color;
                     }
                 }
             }

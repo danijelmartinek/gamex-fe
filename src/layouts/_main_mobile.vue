@@ -4,7 +4,9 @@
         <div
             class="menu dm-sidebar"
             :class="{ 'dm-sidebar-open': mobileNavActive }"
-            :style="{ 'transition-delay': mobileNavActive ? '0s' : '0.02s' }"
+            :style="{
+                'transition-delay': mobileNavActive ? '0s' : '0.02s'
+            }"
         >
             <slot name="sidebar">
                 <span>Unknown sidebar</span>
@@ -13,14 +15,10 @@
 
         <div
             class="content"
-            :style="{ 'transition-delay': mobileNavActive ? '0.02s' : '0s' }"
+            :style="{
+                'transition-delay': mobileNavActive ? '0.02s' : '0s'
+            }"
         >
-            <button
-                @click="mobileNavActive = !mobileNavActive"
-                style="width: 100%;"
-            >
-                toggle menu
-            </button>
             <slot>
                 <span>Unknown content</span>
             </slot>
@@ -29,13 +27,11 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref } from '@vue/composition-api';
+    import { defineComponent } from '@vue/composition-api';
 
     export default defineComponent({
-        setup() {
-            const mobileNavActive: boolean = ref(false);
-
-            return { mobileNavActive };
+        props: {
+            mobileNavActive: Boolean
         }
     });
 </script>
@@ -56,9 +52,8 @@
             transform: translate3d(-105%, 0, 0);
             transition: all 0.2s ease-in-out;
             overflow: scroll;
-            border-right: 1px solid rgba(0, 0, 0, 0.2);
+            // border-right: 1px solid rgba(0, 0, 0, 0.2);
             // box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            background-color: red;
             z-index: 9999;
 
             @include breakpoint('xxs') {
@@ -97,7 +92,6 @@
             transition: all 200ms ease-in-out;
             transition-delay: 0.02s;
             overflow: auto;
-            background-color: blue;
         }
 
         .dm-sidebar-open + .content {

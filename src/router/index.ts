@@ -22,7 +22,8 @@ const routes = [
     {
         path: '/rent-pc',
         name: 'Rent PC',
-        component: Home
+        component: () =>
+            import(/* webpackChunkName: "about" */ '../views/rent-pc/index.vue')
     },
     {
         path: '/support',
@@ -44,7 +45,14 @@ const routes = [
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { x: 0, y: 0 };
+        }
+    }
 });
 
 export default router;
